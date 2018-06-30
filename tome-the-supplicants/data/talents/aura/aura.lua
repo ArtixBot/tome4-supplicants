@@ -33,6 +33,7 @@ newTalentType{ is_unarmed=true, allow_random=true, type="aura/fusion-combat", na
 newTalentType{ allow_random=true, type="aura/aurasurge", name = "aurasurge", description = "Your aura constantly distorts the area around you, and even manifests itself in the eyes of non-followers." }
 newTalentType{ allow_random=true, type="aura/dynasty", name = "dynasty", description = "When heralds of The One act, things change." }
 newTalentType{ allow_random=true, generic=true, type="aura/resilience", name = "resilience", description = "Crippling effects only push you towards greater achievement!" }
+newTalentType{ allow_random=true, generic=true, type="aura/one-commandants", name = "commandants", description = "Sacrifice for The One!" }
 
 -- Generic requires for spells based on talent level
 dementedreq1 = {
@@ -75,6 +76,8 @@ dementedreq_high5 = {
 	stat = { mag=function(level) return 54 + (level-1) * 2 end },
 	level = function(level) return 26 + (level-1)  end,
 }
+-- Load alternate attack mechanism.
+load("/data-supplicants/talents/aura/alter-attack.lua")
 
 load("/data-supplicants/talents/aura/auric-self.lua")
 load("/data-supplicants/talents/aura/auric-pugilism.lua")
@@ -84,3 +87,4 @@ load("/data-supplicants/talents/aura/aurasurge.lua")
 load("/data-supplicants/talents/aura/dynasty.lua")
 
 load("/data-supplicants/talents/aura/resilience.lua")
+load("/data-supplicants/talents/aura/one-commandants.lua")

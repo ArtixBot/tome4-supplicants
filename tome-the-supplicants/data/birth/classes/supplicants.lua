@@ -72,6 +72,7 @@ newBirthDescriptor{
 		-- Generic skills.
 		["technique/combat-training"]={true, 0.3},
 		["aura/resilience"]={true, 0.3},
+		["aura/one-commandants"] = {true, 0.3},
 	},
 	talents = {
 		[ActorTalents.T_AURA_POOL] = 1,

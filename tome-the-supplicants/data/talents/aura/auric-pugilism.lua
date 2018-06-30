@@ -18,7 +18,6 @@
 -- darkgod@te4.org
 
 newTalent{
-	-- Not dead yet!
 	name = "Harmonized Pugilism", short_name = "S_HARMONIZED_PUGILISM",
 	type = {"aura/auric-pugilism", 1},
 	mode = "passive",
@@ -44,7 +43,6 @@ newTalent{
 	is_melee = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	range = 1,
-	aura = 5,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.5, 0.8) end,
 	getPDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.25, 0.4) end,
 	can_alternate_attack = function(self, t)
@@ -80,37 +78,63 @@ newTalent{
 newTalent{
 	name = "Phantom Leap", short_name = "S_PHANTOM_LEAP",
 	type = {"aura/auric-pugilism", 3},
-	mode = "passive",
+	aura = 15,
+	cooldown = 15,
+	range = function(self, t) return math.floor(self:combatTalentScale(t, 3, 6)) end,
 	points = 5,
 	require = techs_str_req1,
+	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.75, 1.15) end,
+	action = function(self, t)
+		return true
+	end,
 	info = function(self, t)
 		return ([[Focus your aura towards your legs before forcing it into the ground, flinging you into the air.
-		This allows you to land towards an unoccupied tile within XX tiles of you.
-		Landing causes a seismic impact that forces your aura to lash out against all adjacent units, dealing XX #08FF9E#Phantom#WHITE# damage.]]):
-		format()
+		This allows you to land towards a targeted area (if occupied, randomly adjacent to that tile).
+		Landing causes a seismic impact that forces your aura to lash out against all adjacent units, dealing %d%% #08FF9E#Phantom#WHITE# damage.]]):
+		format(t.getDamage(self, t) * 100)
 	end,
 }
 
 newTalent{
 	name = "Phantom Assault", short_name = "S_PHANTOM_ASSAULT",
 	type = {"aura/auric-pugilism", 4},
-	mode = "sustained",
-	sustain_aura = 100,
+	aura = 20,
+	cooldown = 24,
+	range = 1,
 	points = 5,
 	require = techs_str_req1,
-	getDamage = function(self, t) return self:combatTalentScale(t, 0.22, 0.31) end,
-	getPDamage = function(self, t) return self:combatTalentScale(t, 0.08, 0.12) end,
-	activate = function(self, t)
-		return true
-	end,
-	deactivate = function(self, t)
+	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
+	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.15, 0.31) end,
+	getPDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.06, 0.12) end,
+	getUDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.12, 1.33) end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y, target = self:getTarget(tg)
+		if not target or not self:canProject(tg, x, y) then return nil end
+
+		local attacks_hit = 0
+		for i=0,5,1 do
+			hit = self:attackTarget(target, nil, t.getDamage(self, t), true)
+			if hit then
+				attacks_hit = attacks_hit + 1
+				self:attackTarget(target, DamageType.PHANTOM, t.getPDamage(self, t), true)
+			end
+		end
+
+		if attacks_hit == 6 then
+			uppercut = self:attackTarget(target, DamageType.PHANTOM, t.getUDamage(self, t), true)
+			if uppercut then
+				target:setEffect(target.EFF_STUNNED, 4, {})
+			end
+		end
+
 		return true
 	end,
 	info = function(self, t)
 		return ([[Assault an enemy, striking #{italic}#six#{normal}# times. Each strike deals %d%% damage.
-		Each blow that hits is instanteously followed up by an aura-formulated jab which cannot miss, dealing %d%% #08FF9E#Phantom#WHITE# damage.
+		Each blow that hits is instanteously followed up by an aura-formulated jab, dealing %d%% #08FF9E#Phantom#WHITE# damage.
 		
-		If all six attacks hit, you focus the remnants of your aura into your arm, performing an uppercut that deals XX #08FF9E#Phantom#WHITE# damage and stuns the target for XX turns.]]):
-		format(t.getDamage(self, t) * 100, t.getPDamage(self, t) * 100)
+		If all six attacks hit, you focus the remnants of your aura into your arm, performing an uppercut that deals %d%% #08FF9E#Phantom#WHITE# damage and stuns the target for 4 turns on hit.]]):
+		format(t.getDamage(self, t) * 100, t.getPDamage(self, t) * 100, t.getUDamage(self, t) * 100)
 	end,
 }

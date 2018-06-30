@@ -26,10 +26,11 @@ newTalent{
 	require = techs_str_req1,
 	info = function(self, t)
 		return ([[Redirect all positive energies into your fist before striking an adjacent foe, dealing XX damage.
-		If you have the following positive effects they are removed to empower the strike, granting the following additional effects:
-		Auric Cowling: Shatters the target's internal organs, removing up to XX physical sustain(s).
+		If you have the following positive effects they are removed to empower the strike, adding additional effects to the attack:
+		Auric Cowling: Shatters the target's internal organs, removing up to XX physical sustain(s) per stack.
 		Aurasurge: Shatters the target's arcane faculties, removing up to XX magical sustain(s).
-		Auratic Flow: Shatters the target's concentration, removing up to XX mental sustain(s).]]):
+		Auratic Flow: Shatters the target's concentration, removing up to XX mental sustain(s) per stack.
+		Effects are still removed if the attack misses.]]):
 		format()
 	end,
 }
@@ -81,8 +82,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Perform an executing strike.
-		Deals XX damage, and consumes all stacks of Auric Cowling/Auratic Flow/Aurasurge to increase the damage dealt by +XX/XX/XX, respectively.
+		return ([[Execute a foe with killing intent, dealing XX damage.
+		Consumes all stacks of Auric Cowling/Auratic Flow/Aurasurge to increase dealt damage by +XX/XX/XX, respectively.
 		If this attack kills the target then all consumed stacks are refunded.]]):
 		format()
 	end,
