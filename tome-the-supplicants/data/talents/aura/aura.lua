@@ -31,6 +31,7 @@ newTalentType{ is_unarmed=true, allow_random=true, type="aura/auric-pugilism", n
 newTalentType{ is_unarmed=true, allow_random=true, type="aura/combat-flow", name = "combat flow", description = "Build up deadly force as combat continues." }
 newTalentType{ is_unarmed=true, allow_random=true, type="aura/fusion-combat", name = "fusion combat", description = "Convert all details of auratic combat into seismic finishers." }
 newTalentType{ allow_random=true, type="aura/aurasurge", name = "aurasurge", description = "Your aura constantly distorts the area around you, and even manifests itself in the eyes of non-followers." }
+newTalentType{ allow_random=true, type="aura/essence-control", name = "essence control", description = "Dedicated followers of The One are capable of shaping the auras of sentient beings around them."}
 newTalentType{ allow_random=true, type="aura/dynasty", name = "dynasty", description = "When heralds of The One act, things change." }
 newTalentType{ allow_random=true, generic=true, type="aura/resilience", name = "resilience", description = "Crippling effects only push you towards greater achievement!" }
 newTalentType{ allow_random=true, generic=true, type="aura/one-commandants", name = "commandants", description = "Sacrifice for The One!" }
@@ -82,6 +83,7 @@ load("/data-supplicants/talents/aura/alter-attack.lua")
 load("/data-supplicants/talents/aura/auric-self.lua")
 load("/data-supplicants/talents/aura/auric-pugilism.lua")
 load("/data-supplicants/talents/aura/combat-flow.lua")
+load("/data-supplicants/talents/aura/essence-control.lua")
 load("/data-supplicants/talents/aura/fusion-combat.lua")
 load("/data-supplicants/talents/aura/aurasurge.lua")
 load("/data-supplicants/talents/aura/dynasty.lua")

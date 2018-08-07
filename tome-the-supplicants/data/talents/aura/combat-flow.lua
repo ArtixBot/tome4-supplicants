@@ -1,24 +1,5 @@
--- ToME - Tales of Maj'Eyal:
--- Copyright (C) 2009 - 2014 Nicolas Casalini
---
--- This program is free software: you can redistribute it and/or modify
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
---
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- GNU General Public License for more details.
---
--- You should have received a copy of the GNU General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
---
--- Nicolas Casalini "DarkGod"
--- darkgod@te4.org
-
 newTalent{
-	-- Not dead yet!
+	-- Each attack builds physical power, regen, and damage conversion.
 	name = "Auratic Flow", short_name = "S_AURATIC_FLOW",
 	type = {"aura/combat-flow", 1},
 	mode = "passive",
@@ -42,6 +23,7 @@ newTalent{
 }
 
 newTalent{
+	-- Instant low-damage attack that builds stacks.
 	name = "Sleek Strike", short_name = "S_SLEEK_STRIKE",
 	type = {"aura/combat-flow", 2},
 	no_energy = true,
@@ -81,6 +63,7 @@ newTalent{
 }
 
 newTalent{
+	-- Generate a whole lotta stacks and damage provided you don't get killed from this...
 	name = "Counterassault", short_name = "S_COUNTERASSAULT",
 	type = {"aura/combat-flow", 3},
 	aura = 10,
@@ -103,13 +86,17 @@ newTalent{
 }
 
 newTalent{
+	-- While active all pugilism talents get a power boost.
+	-- Boost is minor, but since most pugilism attacks are multihit having too much would be OP.
 	name = "Fusion Combat", short_name = "S_FUSION_COMBAT",
 	type = {"aura/combat-flow", 4},
 	mode = "sustained",
 	sustain_aura = 15,
 	points = 5,
 	require = techs_str_req1,
+	getMult = function(self, t) return self:combatStatScale("wil", 4, 16) end,	-- +16% damage to striking talents at 100 Willpower.
 	getPercentDaze = function(self, t) return math.floor(self:combatTalentScale(t, 20, 65)) end,
+	getReduce = function(self, t) return math.floor(self:combatTalentLimit(t, 6, 1, 5)) end,
 	activate = function(self, t)
 		return true
 	end,
@@ -117,10 +104,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Adopt a fluid, adaptable stance which emphasizes the flowing motions of hand-to-hand combat, increasing the lethality of all Auric Pugilism techniques.
-		Phantom Jab grants an additional stack of Auratic Flow if both attacks hit, and has a %d%% chance to daze for 3 turns (subject to save checks).
-		Phantom Leap grants a stack of Auratic Flow for every enemy hit (max XX times).
-		Phantom Assault generates one stack of Auratic Flow if any attack hits. At talent level 5 it instead grants a stack of Auratic Flow for every other attack that hits (max 3).]]):
-		format(t.getPercentDaze(self, t))
+		return ([[Adopt a fluid stance which emphasizes the flowing motions of hand-to-hand combat.
+		While active, the damage multiplier of all Auric Pugilism talents is increased by %d%%.
+		Additionally, Phantom Jab has a %d%% chance to daze the target for 3 turns if both attacks hit, and Phantom Leap and Phantom Assault's cooldowns are reduced by %d.
+		The damage multiplier increases with Willpower.]]):
+		format(t.getMult(self, t), t.getPercentDaze(self, t), t.getReduce(self, t))
 	end,
 } 

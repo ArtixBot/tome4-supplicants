@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newTalent{
-	-- Randomly gain a signfiicant Defense and evasion boost.
+	-- Randomly gain a signficant Defense and evasion boost.
 	name = "Aurasurge", short_name = "S_AURASURGE",
 	type = {"aura/aurasurge", 1},
 	mode = "passive",

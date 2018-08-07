@@ -67,6 +67,7 @@ newBirthDescriptor{
 		["aura/auric-pugilism"]={true, 0.3},
 		["aura/combat-flow"]={true, 0.3},
 		["aura/aurasurge"]={true, 0.3},
+		["aura/essence-control"]={true, 0.3},
 		["aura/fusion-combat"]={true, 0.3},
 		
 		-- Generic skills.
